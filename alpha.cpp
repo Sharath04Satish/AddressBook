@@ -134,6 +134,74 @@ void unpack() {
 	f4.close();
 }
 
+void modify() { 
+	people obj[50];
+	fstream f3; 
+	char id[10]; 
+	int i,j;  
+	f3.open("address.txt",ios::in); 
+ 
+	if(!f3) { 
+		cout<<"Unable to open the file in I/P mode"; 
+		exit(1); 
+	} 
+	cout<<"\nEnter the ID of the record to be modified\n"; 
+	cin>>id; 
+	i=0; 
+  
+	while(!f3.eof()) { 
+		f3.getline(obj[i].fname, 20, '|');
+		f3.getline(obj[i].lname, 20, '|');
+		f3.getline(obj[i].mid, 10, '|');
+		f3.getline(obj[i].phn, 15, '|');
+		f3.getline(obj[i].ofphn, 15, '|');
+		f3.getline(obj[i].area, 20, '|');
+		f3.getline(obj[i].occ, 30, '|');
+		f3.getline(obj[i].email, 50, '\n'); 
+		i++; 
+	} 
+	for(j=0;j<i;j++) { 
+		if(strcmp(id,obj[j].mid)==0) { 
+			cout<<"Record Found"<<endl;
+			cout<<"\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+			cout<<"\nThe old values of the record with ID "<<id<<" are\n"; 
+			cout<<"First Name= "<<obj[j].fname<<"\nLast Name= "<<obj[j].lname<<"\nID= "<<obj[j].mid<<"\nPhone Number= "<<obj[j].phn<<"\nOffice Phone Number= "<<obj[j].ofphn<<"\nArea= "<<obj[j].area<<"\nOccupation= "<<obj[j].occ<<"\nEmail ID= "<<obj[j].email<<"\n";
+			cout<<"\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n"; 
+			cout<<"\nEnter the new values"; 
+			cout<<"\nFirst Name= ";cin>>obj[j].fname; 
+			cout<<"Last Name= ";cin>>obj[j].lname; 
+			cout<<"ID= ";cin>>obj[j].mid; 
+			cout<<"Phone Number= ";cin>>obj[j].phn; 
+			cout<<"Office Phone Number= ";cin>>obj[j].ofphn;
+			cout<<"Area= ";cin>>obj[j].area;
+			cout<<"Occupation= ";cin>>obj[j].occ;
+			cout<<"Email= \n";cin>>obj[j].email; 
+			break; 
+		} 
+	} 
+	if(j==i) { 
+ 		cout<<"\n The record with ID "<<id<<" is not present"; 
+		exit(0); 
+	} 
+	f3.close(); 
+	fstream out1;
+	fstream out2; 
+	out1.open("address.txt",ios::out); 
+ 
+	if(!out1) { 
+		cout<<"\n Unable to open file in O/P mode"; 
+		return; 
+	} 
+	
+	out2.open("address.txt",ios::trunc);
+	for(j=0;j<i;j++) { 
+		out1<<obj[j].fname<<"|"<<obj[j].lname<<"|"<<obj[j].mid<<"|"<<obj[j].phn<<"|"<<obj[j].ofphn<<"|"<<obj[j].area<<"|"<<obj[j].occ<<"|"<<obj[j].email<<'\n'; 
+	}
+	out2.close(); 
+	out1.close(); 
+} 
+
+
 void display() {
     for(int i=1;i<=50;i++) {
 		cout<<"\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
@@ -161,11 +229,13 @@ void search() {
         cout << "\nRecord not found." << endl;
 }
 
+ 
+
 int main() {
 	int ch;
     hashTable.resize(51, vector < string >(9, "-"));
 	for (;;) {
-		cout<<"\n1. Add Records\n2. Display Records\n3. Search Record\n";
+		cout<<"\n1. Add Records\n2. Display Records\n3. Search Record\n4. Modify\n";
 		cout << "\nEnter your choice: ";
 		cin >> ch;
 
@@ -181,10 +251,15 @@ int main() {
         case 3:
             unpack();
             search();
+			break;
+		case 4:
+			modify();
+			unpack();
+			break;
 		default:
 			break;
 		}
     }
-    system("pause");
+	system("pause");
     return 0;
 }
