@@ -10,4 +10,5 @@
 3|Lionel|Messi|BA4999|9489190912|08088645|Barcelona|Magician|lionelmessi@gmail.com
 21|Cristiano|Ronaldo|JU0727|9017429760|070398475|Juventus|Legen|ronaldo@gmail.com
 12|Shyam|Bahety|UT9026|8920721679|84759845|Uttrahalli|Tiger|khkfhdf
+23|Nelson|Mandela|SA5701|8507406178|7868767|Srirampura|Activist|nelson@gmail.com
 0||||||||
