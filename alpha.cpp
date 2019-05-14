@@ -88,7 +88,7 @@ int hashFunc(char *id) {
 		sum += ((int)id[i] * i);
     index = sum % 50;
     //Linear Probing
-    //  while(hashTable[index][1] != "empty")
+    //  while(hashTable[index][1] != "-")
     //     index = (index + 1) % 50;
 	return index;
 }
@@ -136,12 +136,10 @@ void unpack() {
 
 void display() {
     for(int i=1;i<=50;i++) {
-        for(int j=1;j<=8;j++) {
-            //cout<<i<<"\t";
-            cout<<hashTable[i][j];
-            cout<<"\t";
-        }
-        cout<<endl;
+		cout<<"\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+		cout<<"\nIndex= "<<i<<"\n";
+        cout<<"First Name= "<<hashTable[i][1]<<"\nLast Name= "<<hashTable[i][2]<<"\nID= "<<hashTable[i][3]<<"\nPhone Number= "<<hashTable[i][4]<<"\nOffice Phone Number= "<<hashTable[i][5]<<"\nArea= "<<hashTable[i][6]<<"\nOccupation= "<<hashTable[i][7]<<"\nEmail ID= "<<hashTable[i][8];
+        cout<<"\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------	";
     }      
 }
 
@@ -150,22 +148,24 @@ void search() {
     cout<<"\nEnter your ID: ";
     cin>>id;
     int index = hashFunc(id);
-    // while(hashTable[index][3] != id and hashTable[index][1] != "empty")
+    // while(hashTable[index][3] != id and hashTable[index][1] != "-")
     //     index = (index + 1) % 50;
-    if(hashTable[index][1] != "empty") {
-        cout <<"Record found." << endl;
-        for(int i=1;i<=8;i++)
-            cout<<hashTable[index][i]<<"\t";
+    if(hashTable[index][1] != "-") {
+        cout << "\nRecord found." << endl;
+		cout<<"\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+         cout<<"First Name= "<<hashTable[index][1]<<"\nLast Name= "<<hashTable[index][2]<<"\nID= "<<hashTable[index][3]<<"\nPhone Number= "<<hashTable[index][4]<<"\nOffice Phone Number= "<<hashTable[index][5]<<"\nArea= "<<hashTable[index][6]<<"\nOccupation= "<<hashTable[index][7]<<"\nEmail ID= "<<hashTable[index][8];
+		 cout<<"\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
         return;
     }
     else
-        cout <<"Record not found." << endl;
+        cout << "\nRecord not found." << endl;
 }
 
 int main() {
 	int ch;
-    hashTable.resize(51, vector < string >(9, "empty"));
+    hashTable.resize(51, vector < string >(9, "-"));
 	for (;;) {
+		cout<<"\n1. Add Records\n2. Display Records\n3. Search Record\n";
 		cout << "\nEnter your choice: ";
 		cin >> ch;
 
