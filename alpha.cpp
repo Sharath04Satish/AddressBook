@@ -82,19 +82,16 @@ void welcome() {
 }
 
 int hashFunc(char *id) {
-	char set[10];
 	int sum = 0, index;
-	for (int i = 1;i <= strlen(id);i++)
-		sum += ((int)id[i] * i);
+	for (int i = 0;i < strlen(id);i++) {
+		sum += ((int)id[i] * (i+1));
+	}
     index = sum % 50;
-    //Linear Probing
-    //  while(hashTable[index][1] != "-")
-    //     index = (index + 1) % 50;
 	return index;
 }
 
 void unpack() {
-	fstream f3, f4, f5;
+	fstream f3, f4;
 	int index, i, j;
 	f3.open("address.txt", ios::in);
 	f4.open("hash.txt", ios::out);
@@ -118,8 +115,13 @@ void unpack() {
 		f3.getline(p.email, 50, '\n');
 
 		index = hashFunc(p.mid);
+		if(hashTable[index][1] == "-")
+			goto label1;
+		while(hashTable[index][1] != "-")
+			index = (index+1) % 50;
 
-        hashTable[index][1]=p.fname;
+        label1: 
+		hashTable[index][1]=p.fname;
         hashTable[index][2]=p.lname;
         hashTable[index][3]=p.mid;
         hashTable[index][4]=p.phn;
@@ -184,23 +186,76 @@ void modify() {
 		exit(0); 
 	} 
 	f3.close(); 
-	fstream out1;
-	fstream out2; 
-	out1.open("address.txt",ios::out); 
- 
-	if(!out1) { 
-		cout<<"\n Unable to open file in O/P mode"; 
-		return; 
-	} 
-	
-	out2.open("address.txt",ios::trunc);
+	fstream out1; 
+
+	out1.open("address.txt",ios::out | ios::trunc);
 	for(j=0;j<i;j++) { 
 		out1<<obj[j].fname<<"|"<<obj[j].lname<<"|"<<obj[j].mid<<"|"<<obj[j].phn<<"|"<<obj[j].ofphn<<"|"<<obj[j].area<<"|"<<obj[j].occ<<"|"<<obj[j].email<<'\n'; 
 	}
-	out2.close(); 
 	out1.close(); 
 } 
 
+void deletion() {
+	fstream f7, f8;
+	char id[10];
+	people obj1[50];
+	int i=0;
+	f7.open("address.txt", ios::in);
+
+	if(!f7) {
+		cout<<"Cannot open file";
+		exit(1);
+	}
+
+	cout<<"\nEnter the ID of the record you wish to delete: ";
+	cin>>id;
+
+	while(!f7.eof()) {
+		f7.getline(obj1[i].fname, 20, '|');
+		f7.getline(obj1[i].lname, 20, '|');
+		f7.getline(obj1[i].mid, 10, '|');
+		f7.getline(obj1[i].phn, 15, '|');
+		f7.getline(obj1[i].ofphn, 15, '|');
+		f7.getline(obj1[i].area, 20, '|');
+		f7.getline(obj1[i].occ, 30, '|');
+		f7.getline(obj1[i].email, 50, '\n');
+
+		if(strcmp(obj1[i].mid, id)==0)
+			continue;
+		strcpy(obj1[i].buffer, obj1[i].fname);
+		strcat(obj1[i].buffer, "|");
+		strcat(obj1[i].buffer, obj1[i].lname);
+		strcat(obj1[i].buffer, "|");
+		strcat(obj1[i].buffer, obj1[i].mid);
+		strcat(obj1[i].buffer, "|");
+		strcat(obj1[i].buffer, obj1[i].phn);
+		strcat(obj1[i].buffer, "|");
+		strcat(obj1[i].buffer, obj1[i].ofphn);
+		strcat(obj1[i].buffer, "|");
+		strcat(obj1[i].buffer, obj1[i].area);
+		strcat(obj1[i].buffer, "|");
+		strcat(obj1[i].buffer, obj1[i].occ);
+		strcat(obj1[i].buffer, "|");
+		strcat(obj1[i].buffer, obj1[i].email);
+		strcat(obj1[i].buffer, "\n");
+		i++;
+	}
+	f7.close();
+	// f8.open("address.txt",ios::out | ios::trunc);
+	// for(int j=0;j<i;j++) { 
+	// 	f8<<obj1[j].fname<<"|"<<obj1[j].lname<<"|"<<obj1[j].mid<<"|"<<obj1[j].phn<<"|"<<obj1[j].ofphn<<"|"<<obj1[j].area<<"|"<<obj1[j].occ<<"|"<<obj1[j].email<<'\n'; 
+	// 	// f8<<obj1[j].buffer; 
+	// }
+	// f8.close();
+
+	fstream out1; 
+
+	out1.open("address.txt",ios::out | ios::trunc);
+	for(int j=0;j<i;j++) { 
+		out1<<obj1[j].fname<<"|"<<obj1[j].lname<<"|"<<obj1[j].mid<<"|"<<obj1[j].phn<<"|"<<obj1[j].ofphn<<"|"<<obj1[j].area<<"|"<<obj1[j].occ<<"|"<<obj1[j].email<<'\n'; 
+	}
+	out1.close();
+}
 
 void display() {
     for(int i=1;i<=50;i++) {
@@ -216,8 +271,10 @@ void search() {
     cout<<"\nEnter your ID: ";
     cin>>id;
     int index = hashFunc(id);
-    // while(hashTable[index][3] != id and hashTable[index][1] != "-")
-    //     index = (index + 1) % 50;
+	cout<<index;
+
+    while(hashTable[index][3] != id && hashTable[index][1] != "-")
+        index = (index + 1) % 50;
     if(hashTable[index][1] != "-") {
         cout << "\nRecord found." << endl;
 		cout<<"\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
@@ -228,8 +285,6 @@ void search() {
     else
         cout << "\nRecord not found." << endl;
 }
-
- 
 
 int main() {
 	int ch;
@@ -254,7 +309,9 @@ int main() {
 			break;
 		case 4:
 			modify();
-			unpack();
+			break;
+		case 5:
+			deletion();
 			break;
 		default:
 			break;
