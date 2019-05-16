@@ -197,6 +197,7 @@ void modify() {
 
 void deletion() {
 	fstream f7, f8;
+	int flag=0;
 	char id[10];
 	people obj1[50];
 	int i=0;
@@ -220,41 +221,49 @@ void deletion() {
 		f7.getline(obj1[i].occ, 30, '|');
 		f7.getline(obj1[i].email, 50, '\n');
 
-		if(strcmp(obj1[i].mid, id)==0)
+		if(strcmp(obj1[i].mid, id)==0) {
+			flag=1;
 			continue;
-		strcpy(obj1[i].buffer, obj1[i].fname);
-		strcat(obj1[i].buffer, "|");
-		strcat(obj1[i].buffer, obj1[i].lname);
-		strcat(obj1[i].buffer, "|");
-		strcat(obj1[i].buffer, obj1[i].mid);
-		strcat(obj1[i].buffer, "|");
-		strcat(obj1[i].buffer, obj1[i].phn);
-		strcat(obj1[i].buffer, "|");
-		strcat(obj1[i].buffer, obj1[i].ofphn);
-		strcat(obj1[i].buffer, "|");
-		strcat(obj1[i].buffer, obj1[i].area);
-		strcat(obj1[i].buffer, "|");
-		strcat(obj1[i].buffer, obj1[i].occ);
-		strcat(obj1[i].buffer, "|");
-		strcat(obj1[i].buffer, obj1[i].email);
-		strcat(obj1[i].buffer, "\n");
+		}
+			
+		// strcpy(obj1[i].buffer, obj1[i].fname);
+		// strcat(obj1[i].buffer, "|");
+		// strcat(obj1[i].buffer, obj1[i].lname);
+		// strcat(obj1[i].buffer, "|");
+		// strcat(obj1[i].buffer, obj1[i].mid);
+		// strcat(obj1[i].buffer, "|");
+		// strcat(obj1[i].buffer, obj1[i].phn);
+		// strcat(obj1[i].buffer, "|");
+		// strcat(obj1[i].buffer, obj1[i].ofphn);
+		// strcat(obj1[i].buffer, "|");
+		// strcat(obj1[i].buffer, obj1[i].area);
+		// strcat(obj1[i].buffer, "|");
+		// strcat(obj1[i].buffer, obj1[i].occ);
+		// strcat(obj1[i].buffer, "|");
+		// strcat(obj1[i].buffer, obj1[i].email);
+		// strcat(obj1[i].buffer, "\n");
 		i++;
 	}
 	f7.close();
-	// f8.open("address.txt",ios::out | ios::trunc);
-	// for(int j=0;j<i;j++) { 
-	// 	f8<<obj1[j].fname<<"|"<<obj1[j].lname<<"|"<<obj1[j].mid<<"|"<<obj1[j].phn<<"|"<<obj1[j].ofphn<<"|"<<obj1[j].area<<"|"<<obj1[j].occ<<"|"<<obj1[j].email<<'\n'; 
-	// 	// f8<<obj1[j].buffer; 
-	// }
-	// f8.close();
 
-	fstream out1; 
+	if(flag==1) {
+		fstream out1; 
 
-	out1.open("address.txt",ios::out | ios::trunc);
-	for(int j=0;j<i;j++) { 
-		out1<<obj1[j].fname<<"|"<<obj1[j].lname<<"|"<<obj1[j].mid<<"|"<<obj1[j].phn<<"|"<<obj1[j].ofphn<<"|"<<obj1[j].area<<"|"<<obj1[j].occ<<"|"<<obj1[j].email<<'\n'; 
+		out1.open("address.txt",ios::out | ios::trunc);
+		for(int j=0;j<i-1;j++) { 
+			out1<<obj1[j].fname<<"|"<<obj1[j].lname<<"|"<<obj1[j].mid<<"|"<<obj1[j].phn<<"|"<<obj1[j].ofphn<<"|"<<obj1[j].area<<"|"<<obj1[j].occ<<"|"<<obj1[j].email<<'\n'; 
+		}
+		out1.close();
+		cout<<"Record Deleted\n";
 	}
-	out1.close();
+	else
+	{
+		cout<<"Invalid ID\n";
+		return;
+	}
+	
+
+	
 }
 
 void display() {
@@ -290,7 +299,7 @@ int main() {
 	int ch;
     hashTable.resize(51, vector < string >(9, "-"));
 	for (;;) {
-		cout<<"\n1. Add Records\n2. Display Records\n3. Search Record\n4. Modify\n";
+		cout<<"\n1. Add Records\n2. Display Records\n3. Search Record\n4. Modify Records\n5. Delete Records";
 		cout << "\nEnter your choice: ";
 		cin >> ch;
 
