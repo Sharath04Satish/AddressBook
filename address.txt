@@ -23,3 +23,4 @@ Rohit|Sharma|AL3603|9316901360|89797454|Allahabad|Chef|rohit@gmail.com
 Mr|Nags|BL1610|8156812056|4856454|Bellandur|Politician|mrNags@gmail.com
 Jesse|Pinkman|OK4928|9419625855|9364875645|Oklahoma|Distributer|jesse@gmail.com
 Walter|White|NX3872|9318571269|49785454|NewMexico|Teacher|walter@gmail.com
+Patrick|Jane|SM5888|9518488809|878675454|Sacramento|Psychic|patrickJane@gmail.com
