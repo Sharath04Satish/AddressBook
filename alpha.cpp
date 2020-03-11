@@ -37,7 +37,7 @@ int hashFunc(char *id)
 	int sum = 0, index;
 	for (int i = 0;i < strlen(id);i++) 
 		sum += ((int)id[i] * (i+1));
-    index = sum % 50;
+    index = sum % 100;
 	return index;
 }
 
@@ -48,7 +48,7 @@ int checkOverflow()
 	fstream f1;
 	int a=0, flag=0;
 
-	f1.open("address1.txt", ios::in);
+	f1.open("address.txt", ios::in);
 	if(!f1) 
 	{
 		cout<<"\nCannot open file";
@@ -80,8 +80,8 @@ void unpack()
 {
 	fstream f3, f4, f5;
 	int index, i, j;
-	f3.open("address1.txt", ios::in);
-	f4.open("hash1.txt", ios::out);
+	f3.open("address.txt", ios::in);
+	f4.open("hash_file.txt", ios::out);
 	if (!f3 || !f4) 
 	{
 		cout << "\nCannot open file";
@@ -145,30 +145,30 @@ void write()
 	}
 
 	gotoxy(60, 6);
-	cout<<"Register at Socialize";
+	cout<<"Register to the address book";
 	gotoxy(45, 10);
-	cout << "Enter your first name: ";
+	cout << "Enter first name: ";
 	cin >> p.fname;
 	gotoxy(45, 12);
-	cout << "Enter your last name: ";
+	cout << "Enter last name: ";
 	cin >> p.lname;
 	gotoxy(45, 14);
-	cout << "Enter your ID: ";
+	cout << "Enter ID: ";
 	cin >> p.mid;
 	gotoxy(45, 16);
-	cout << "Enter your phone number: ";
+	cout << "Enter phone number: ";
 	cin >> p.phn;
 	gotoxy(45, 18);
-	cout << "Enter your office phone number: ";
+	cout << "Enter office phone number: ";
 	cin >> p.ofphn;
 	gotoxy(45, 20);
-	cout << "Enter the area which you reside in: ";
+	cout << "Enter the area: ";
 	cin >> p.area;
 	gotoxy(45, 22);
-	cout << "Enter your occupation: ";
+	cout << "Enter occupation: ";
 	cin >> p.occ;
 	gotoxy(45, 24);
-	cout << "Enter your email-ID: ";
+	cout << "Enter email-ID: ";
 	cin >> p.email;
 
 	strcpy(p.buffer, p.fname);
@@ -201,11 +201,9 @@ void welcome()
 {
 	system("cls");
 	gotoxy(58, 13);
-	cout << "Welcome to Socialize";
+	cout << "Address Book";
 	gotoxy(54, 18);
-	cout << "An Address Management Software";
-	gotoxy(56, 23);
-	cout << "Press Enter To Continue..";
+	cout << "Press Enter";
 	getch();
 	return;
 }
@@ -219,15 +217,15 @@ void deletion()
 	char id[10];
 	people obj1[50];
 	int i=0;
-	f7.open("address1.txt", ios::in);
+	f7.open("address.txt", ios::in);
 
 	if(!f7) 
 	{
-		cout<<"Cannot open file";
+		cout<<"File cannot be opened";
 		exit(1);
 	}
 	gotoxy(60, 6);
-	cout<<"Delete your records";
+	cout<<"Delete records";
 	gotoxy(45, 11);
 	cout<<"Enter the ID of the record you wish to delete: ";
 	cin>>id;
@@ -256,7 +254,7 @@ void deletion()
 	{
 		fstream out1; 
 
-		out1.open("address1.txt",ios::out | ios::trunc);
+		out1.open("address.txt",ios::out | ios::trunc);
 		for(int j=0;j<i-1;j++) 
 		{ 
 			out1<<obj1[j].fname<<"|"<<obj1[j].lname<<"|"<<obj1[j].mid<<"|"<<obj1[j].phn<<"|"<<obj1[j].ofphn<<"|"<<obj1[j].area<<"|"<<obj1[j].occ<<"|"<<obj1[j].email<<'\n'; 
@@ -271,7 +269,7 @@ void deletion()
 		cout<<"Invalid ID";
 	}
 	gotoxy(58, 19);
-	cout<<"Press Enter to continue..";
+	cout<<"Press Enter";
 	getch();
 	return;
 }
@@ -284,7 +282,7 @@ void modify()
 	fstream f3, out1; 
 	char id[10]; 
 	int i,j;  
-	f3.open("address1.txt",ios::in); 
+	f3.open("address.txt",ios::in); 
  
 	if(!f3) 
 	{ 
@@ -373,7 +371,7 @@ void modify()
 	} 
 	f3.close();
 
-	out1.open("address1.txt",ios::out | ios::trunc);
+	out1.open("address.txt",ios::out | ios::trunc);
 	for(j=0;j<i;j++) 
 	{ 
 		out1<<obj[j].fname<<"|"<<obj[j].lname<<"|"<<obj[j].mid<<"|"<<obj[j].phn<<"|"<<obj[j].ofphn<<"|"<<obj[j].area<<"|"<<obj[j].occ<<"|"<<obj[j].email<<"\n"; 
@@ -381,7 +379,7 @@ void modify()
 	out1.close(); 
 	la:
 	gotoxy(59, 53);
-	cout<<"Press Enter to continue..";
+	cout<<"Press Enter";
 	getch();
 	return;
 } 
@@ -391,7 +389,7 @@ void display()
 {
 	system("cls");
 	gotoxy(60, 4);
-	cout<<"Records at Socialize are";
+	cout<<"Address Book contents are";
 	cout<<"\n";
     for(int i=1;i<=50;i++) {
 		cout<<"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n";
@@ -406,7 +404,7 @@ void display()
 		cout<<"\nEmail ID= "<<hashTable[i][8];
         cout<<"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n";
     } 
-	cout<<"\n\t\t\t\t\t\t\tPress Enter to continue..";  
+	cout<<"\nPress Enter";  
 	getch();
 	return;  
 }
@@ -470,7 +468,7 @@ int main()
 	for (;;) 
 	{
 		gotoxy(58, 10);
-		cout<<"What do you wish to do?";
+		cout<<"Enter your choice";
 		gotoxy(60, 14);
 		cout<<"1. Add Records";
 		gotoxy(60, 16);
